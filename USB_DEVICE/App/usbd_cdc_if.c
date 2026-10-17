@@ -22,6 +22,7 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
+#include "dev_minipc.h"   /* miniPC(USB CDC):把收到的字节交给它 */
 
 /* USER CODE END INCLUDE */
 
@@ -264,6 +265,7 @@ static int8_t CDC_Control_HS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_HS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 11 */
+  MiniPC_Rx_Callback(Buf, (uint16_t)(*Len));   /* ★ miniPC 数据入口(中断里,只搬运) */
   USBD_CDC_SetRxBuffer(&hUsbDeviceHS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceHS);
   return (USBD_OK);

@@ -24,6 +24,8 @@
 #include "bdma.h"
 #include "dma.h"
 #include "fdcan.h"
+#include "mdma.h"
+#include "octospi.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -32,7 +34,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "bsp_dwt.h"    /* DWT_Init() */
+#include "robot.h"      /* Robot_Init() —— 机器人层唯一入口
+                           ⚠️ 本文件是 C 文件:只能包这种 C 兼容头,绝不能
+                           include motor_XX/xxx.h 等 C++ 类头,否则报
+                           unknown type name 'class' / 'motor_Control_mode' ...
+                           (电机代码在 User/App/motor_task/,任务在 User/App/robot/) */
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,7 +60,17 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+/* 「错误现场」变量(声明在 main.h 的 USER CODE ET 段,说明也在那里)。
+   调试时先看 g_fault_code:1=堆分配失败 2=任务栈溢出 3=Error_Handler 4=HardFault */
+volatile uint32_t g_fault_code = 0u;
+volatile const char *g_fault_task = 0;
+volatile uint32_t g_fault_cfsr = 0u;
+volatile uint32_t g_fault_hfsr = 0u;
+volatile uint32_t g_fault_mmfar = 0u;
+volatile uint32_t g_fault_bfar = 0u;
+volatile uint32_t g_fault_psp = 0u;
+volatile uint32_t g_fault_msp = 0u;
+volatile uint32_t g_fault_pc_psp = 0u;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -115,6 +132,7 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_BDMA_Init();
+  MX_MDMA_Init();
   MX_FDCAN1_Init();
   MX_FDCAN2_Init();
   MX_UART5_Init();
@@ -130,8 +148,36 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
+  MX_OCTOSPI2_Init();
+  MX_TIM5_Init();
+  MX_TIM12_Init();
+  MX_SPI6_Init();
   /* USER CODE BEGIN 2 */
+  /* ==================== 本工程的启动顺序 ====================
+   *   ① DWT_Init(0)      微秒级时间戳(DWT->CYCCNT,内核时钟)
+   *                      —— 电机的发送频率调度靠它,必须最先起
+   *   ② Robot_Init()     机器人层初始化(仿 basic_framework 的 RobotInit):
+   *                        各 BSP(CAN 过滤器等)
+   *                        → 各子系统 Init(电机 Init + 注册接收回调)
+   *                      ⚠️ 建 RTOS 任务**不在这里** —— CMSIS-RTOS2 要求先
+   *                         osKernelInitialize() 才能建线程,而本段在它之前;
+   *                         建任务在下面 MX_FREERTOS_Init() 的 RTOS_THREADS 段
+   *                         里由 OSTaskInit() 完成。
+   *   ③ osKernelInitialize() / MX_FREERTOS_Init()  ← 内部:建任务
+   *   ④ osKernelStart()  调度器接管,此后 main 里的代码不再执行
+   * 任务的周期/优先级/栈在 User/App/robot/robot_def.h 里配。
+   * ========================================================= */
+  DWT_Init(0);
+  Robot_Init();
 
+  /* PC15 = POWER_5V(5V 使能脚):现在由 MX_GPIO_Init() 初始化成**低 = 关闭**。
+     改的是 LGRobotSystem.ioc 里 PC15-OSC32_OUT.PinState=GPIO_PIN_RESET,
+     所以重新生成代码也保持关闭;Core/Src/gpio.c 已与 .ioc 一致。
+     运行中要开/关:
+         HAL_GPIO_WritePin(POWER_5V_GPIO_Port, POWER_5V_Pin, GPIO_PIN_SET);    //开 5V
+         HAL_GPIO_WritePin(POWER_5V_GPIO_Port, POWER_5V_Pin, GPIO_PIN_RESET);  //关 5V
+     ⚠️ 它是板上 **5V 输出使能**(达妙 DM-MC-Board02 手册:PC15 = Power_5V_EN,丝印 "5V EN"),
+        关掉只切断 5V 输出那一路;板子自身 3.3V 逻辑(MCU/板载 IMU/CAN 收发器)不受影响。 */
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -273,6 +319,14 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+  /** Initializes and configures the Region and the memory to be protected
+  */
+  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+  MPU_InitStruct.BaseAddress = 0x70000000 ;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_256MB;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_HFNMI_PRIVDEF);
 
@@ -308,6 +362,11 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
+  /* ★ 记下"是这里停的",否则它和 configASSERT / HardFault / 各种死循环在调试器里长得一样。
+     谁调用它的:Core/Src 里各外设的 MX_xxx_Init()(HAL 返回非 HAL_OK 时)。
+     断在这就把 g_fault_code 设个标记,再回上一帧看是哪个外设。
+     ⚠️ 故意不自动复位:自动复位会把故障现场冲掉,调试阶段宁可停住。 */
+  g_fault_code = 3u;
   __disable_irq();
   while (1)
   {

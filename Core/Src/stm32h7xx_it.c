@@ -62,9 +62,13 @@ extern DMA_HandleTypeDef hdma_memtomem_dma1_stream0;
 extern FDCAN_HandleTypeDef hfdcan1;
 extern FDCAN_HandleTypeDef hfdcan2;
 extern FDCAN_HandleTypeDef hfdcan3;
+extern MDMA_HandleTypeDef hmdma_octospi2_fifo_th;
+extern OSPI_HandleTypeDef hospi2;
 extern DMA_HandleTypeDef hdma_spi2_rx;
 extern DMA_HandleTypeDef hdma_spi2_tx;
+extern DMA_HandleTypeDef hdma_spi6_tx;
 extern SPI_HandleTypeDef hspi2;
+extern SPI_HandleTypeDef hspi6;
 extern DMA_HandleTypeDef hdma_uart5_rx;
 extern DMA_HandleTypeDef hdma_uart7_rx;
 extern DMA_HandleTypeDef hdma_uart7_tx;
@@ -112,7 +116,24 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
-
+  /* ★ 记录故障现场再停住 —— 不然这里只有一个 while(1),什么都看不出来。
+     调试器里看:g_fault_code=4;
+       g_fault_hfsr  bit30(FORCED)=由下面的可配置故障升级而来
+       g_fault_cfsr  哪一类:bit0-7 MMFSR(MPU/取指/取数)、bit8-15 BFSR(总线)、bit16-31 UFSR(用法)
+       g_fault_bfar/g_fault_mmfar  出错地址(需 SCB->CFSR 里对应的 VALID 位置位)
+       g_fault_pc_psp  出错时的 PC(从 PSP 栈帧第 7 个字取:★任务里跑飞时用它,
+                       配合 .map/反汇编就能定位到具体函数)
+     ⚠️ 若是在中断/中断上下文里跑飞,栈帧在 MSP 上,此时 g_fault_pc_psp 无意义。 */
+  g_fault_code  = 4u;
+  g_fault_cfsr  = SCB->CFSR;
+  g_fault_hfsr  = SCB->HFSR;
+  g_fault_mmfar = SCB->MMFAR;
+  g_fault_bfar  = SCB->BFAR;
+  g_fault_psp   = __get_PSP();
+  g_fault_msp   = __get_MSP();
+  /* 异常栈帧:r0 r1 r2 r3 r12 LR PC xPSR ⇒ PC 是第 7 个字(下标 6) */
+  g_fault_pc_psp = ((volatile uint32_t *)g_fault_psp)[6];
+  __DSB();
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {
@@ -565,6 +586,34 @@ void UART7_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles SPI6 global interrupt.
+  */
+void SPI6_IRQHandler(void)
+{
+  /* USER CODE BEGIN SPI6_IRQn 0 */
+
+  /* USER CODE END SPI6_IRQn 0 */
+  HAL_SPI_IRQHandler(&hspi6);
+  /* USER CODE BEGIN SPI6_IRQn 1 */
+
+  /* USER CODE END SPI6_IRQn 1 */
+}
+
+/**
+  * @brief This function handles MDMA global interrupt.
+  */
+void MDMA_IRQHandler(void)
+{
+  /* USER CODE BEGIN MDMA_IRQn 0 */
+
+  /* USER CODE END MDMA_IRQn 0 */
+  HAL_MDMA_IRQHandler(&hmdma_octospi2_fifo_th);
+  /* USER CODE BEGIN MDMA_IRQn 1 */
+
+  /* USER CODE END MDMA_IRQn 1 */
+}
+
+/**
   * @brief This function handles BDMA channel0 global interrupt.
   */
 void BDMA_Channel0_IRQHandler(void)
@@ -576,6 +625,34 @@ void BDMA_Channel0_IRQHandler(void)
   /* USER CODE BEGIN BDMA_Channel0_IRQn 1 */
 
   /* USER CODE END BDMA_Channel0_IRQn 1 */
+}
+
+/**
+  * @brief This function handles BDMA channel1 global interrupt.
+  */
+void BDMA_Channel1_IRQHandler(void)
+{
+  /* USER CODE BEGIN BDMA_Channel1_IRQn 0 */
+
+  /* USER CODE END BDMA_Channel1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_spi6_tx);
+  /* USER CODE BEGIN BDMA_Channel1_IRQn 1 */
+
+  /* USER CODE END BDMA_Channel1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles OCTOSPI2 global interrupt.
+  */
+void OCTOSPI2_IRQHandler(void)
+{
+  /* USER CODE BEGIN OCTOSPI2_IRQn 0 */
+
+  /* USER CODE END OCTOSPI2_IRQn 0 */
+  HAL_OSPI_IRQHandler(&hospi2);
+  /* USER CODE BEGIN OCTOSPI2_IRQn 1 */
+
+  /* USER CODE END OCTOSPI2_IRQn 1 */
 }
 
 /**

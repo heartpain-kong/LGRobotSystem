@@ -48,7 +48,7 @@ MEMORY
   FLASH    (rx)    : ORIGIN = 0x08000000,   LENGTH = 1024K
   RAM_D1  (xrw)    : ORIGIN = 0x24000000,   LENGTH = 320K
   RAM_D2  (xrw)    : ORIGIN = 0x30000000,   LENGTH = 32K
-  RAM_D3  (xrw)    : ORIGIN = 0x38000000,   LENGTH = 16K
+    RAM_D3  (xrw)    : ORIGIN = 0x38000000,   LENGTH = 16K
 }
 
 /* Define output sections */
@@ -155,6 +155,32 @@ SECTIONS
     __bss_end__ = _ebss;
   } >RAM_D1
 
+  /* ★ BDMA 专用缓冲(D3 SRAM / SRAM4 = 0x38000000):
+     SPI6 的 DMA 请求只能走 BDMA,而 BDMA 只能访问 D3 SRAM。
+     ws2812_buffer 就放在这个段里。
+     ⚠️ CubeMX 导出后会冲掉本段 —— 请手工加回(见 User/Device/ws2812/bsp_ws2812.md) */
+  /* DMA buffers placed in AXI SRAM (0x24000000):
+     DTCM is not reachable by DMA1/DMA2, and MPU sets this region non-cacheable */
+.RAM_D3 (NOLOAD) :
+  {
+    . = ALIGN(32);
+    *(.RAM_D3)
+    *(.RAM_D3*)
+    . = ALIGN(32);
+  } >RAM_D3
+
+  .AXI_SRAM (NOLOAD) :
+  {
+    . = ALIGN(4);
+    *(.AXI_SRAM)
+    *(.AXI_SRAM*)
+    . = ALIGN(4);
+  } >RAM_D1
+
+  /* ★ BDMA 专用缓冲(D3 SRAM / SRAM4 = 0x38000000):
+     SPI6 的 DMA 请求只能走 BDMA,而 BDMA 只能访问 D3 SRAM。
+     ws2812_buffer 就放在这个段里。
+     ⚠️ CubeMX 导出后会冲掉本段 —— 请手工加回(见 User/Device/ws2812/bsp_ws2812.md) */
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
   {
@@ -166,6 +192,10 @@ SECTIONS
     . = ALIGN(8);
   } >RAM_D1
 
+  /* ★ BDMA 专用缓冲(D3 SRAM / SRAM4 = 0x38000000):
+     SPI6 的 DMA 请求只能走 BDMA,而 BDMA 只能访问 D3 SRAM。
+     ws2812_buffer 就放在这个段里。
+     ⚠️ CubeMX 导出后会冲掉本段 —— 请手工加回(见 User/Device/ws2812/bsp_ws2812.md) */
   /* Remove information from the standard libraries */
   /DISCARD/ :
   {
