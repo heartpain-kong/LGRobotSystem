@@ -18,7 +18,9 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="LGRobotSystem" targetName="LGRobotSystem.elf" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -26,34 +28,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05dcab9c-5ba6-4d49-8a5f-779985fcbd19" name="更改" comment="LGRobotSystem V0.1">
-      <change afterPath="$PROJECT_DIR$/User/Bsp/gpio/bsp_gpio.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/User/Bsp/gpio/bsp_gpio.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cproject" beforeDir="false" afterPath="$PROJECT_DIR$/.cproject" afterDir="false" />
+    <list default="true" id="05dcab9c-5ba6-4d49-8a5f-779985fcbd19" name="更改" comment="LGRobotSystem V1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mxproject" beforeDir="false" afterPath="$PROJECT_DIR$/.mxproject" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists_template.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Inc/FreeRTOSConfig.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/FreeRTOSConfig.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/main.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/spi.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/spi.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/stm32h7xx_hal_conf.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/stm32h7xx_hal_conf.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/stm32h7xx_it.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/stm32h7xx_it.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/tim.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/tim.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/bdma.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/bdma.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Src/fdcan.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/fdcan.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Src/freertos.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/freertos.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/gpio.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/gpio.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/spi.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/spi.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Src/stm32h7xx_it.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/stm32h7xx_it.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/tim.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/tim.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Src/usart.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/usart.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LGRobotSystem.ioc" beforeDir="false" afterPath="$PROJECT_DIR$/LGRobotSystem.ioc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c" beforeDir="false" afterPath="$PROJECT_DIR$/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/portmacro.h" beforeDir="false" afterPath="$PROJECT_DIR$/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/portmacro.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/STM32H723VGTX_FLASH.ld" beforeDir="false" afterPath="$PROJECT_DIR$/STM32H723VGTX_FLASH.ld" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/USB_DEVICE/App/usbd_cdc_if.c" beforeDir="false" afterPath="$PROJECT_DIR$/USB_DEVICE/App/usbd_cdc_if.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stlink.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/stlink.cfg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +48,22 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="EmbeddedSvdWindowState">
+    <option name="columnWidths">
+      <list>
+        <option value="212" />
+        <option value="92" />
+        <option value="838" />
+      </list>
+    </option>
+    <option name="columnOrder">
+      <list>
+        <option value="名称" />
+        <option value="值" />
+        <option value="描述" />
+      </list>
+    </option>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug-MinGW" />
   <component name="Git.Settings">
@@ -82,27 +84,33 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h723xx.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="LiveWatchesService" sampling-time-ms="2000">
+    <items>
+      <expr name="dj_motor">dj_motor</expr>
+      <expr name="g_fault_bfar">g_fault_bfar</expr>
+      <expr name="g_fault_cfsr">g_fault_cfsr</expr>
+      <expr name="g_fault_code">g_fault_code</expr>
+      <expr name="g_fault_hfsr">g_fault_hfsr</expr>
+      <expr name="g_fault_mmfar">g_fault_mmfar</expr>
+      <expr name="g_fault_pc_psp">g_fault_pc_psp</expr>
+      <expr name="s_imu">s_imu</expr>
+    </items>
+    <columns>
+      <column name="livewatches.column.name.watch" width="190" />
+      <column name="livewatches.column.name.type" width="190" />
+      <column name="livewatches.column.name.value" width="190" />
+      <column name="livewatches.column.name.max" width="190" />
+      <column name="livewatches.column.name.min" width="190" />
+      <column name="livewatches.column.name.changes" width="190" />
+    </columns>
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="Ve7cSPh4" />
   </component>
-  <component name="Non-shared Debug Profiles">
-    <debug-profiles>
-      <debug-profile>
-        <option name="id" value="0035130b-40c8-4133-b44e-6578cb88fb59" />
-        <option name="type" value="stlink" />
-        <option name="name" value="ST-LINK" />
-        <settings>
-          <gdb>
-            <option name="persistentSession" value="false" />
-          </gdb>
-          <server>
-            <option name="executable" value="E:\cubeclt\STM32CubeCLT_1.21.0\STLink-gdb-server\bin\ST-LINK_gdbserver.exe" />
-            <option name="stm32CubeProgrammerPath" value="E:\cubeclt\STM32CubeCLT_1.21.0\STM32CubeProgrammer\bin" />
-          </server>
-        </settings>
-      </debug-profile>
-    </debug-profiles>
+  <component name="PerforceDirect.Settings">
+    <option name="CHARSET" value="none" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -118,6 +126,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;CMake 应用程序.LGRobotSystem.elf.executor&quot;: &quot;Debug&quot;,
     &quot;CidrDebugProfileConversion&quot;: &quot;true&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;OpenOCD 下载并运行.LGRobotSystemST.elf.executor&quot;: &quot;Run&quot;,
@@ -142,16 +151,18 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;python.packages.toolwindow.project.migrated.to.right.top.v2&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;cidr.DebugProfilesConfigurable&quot;
   }
 }</component>
   <component name="RtosSettings">
     <option name="rtosEnabled" value="true" />
+    <option name="rtosType" value="FreeRTOS" />
+    <option name="threadsEnabled" value="NO" />
   </component>
   <component name="RunManager" selected="OpenOCD 下载并运行.LGRobotSystemST.elf">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="LGRobotSystem.elf" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LGRobotSystem" TARGET_NAME="LGRobotSystem.elf" CONFIG_NAME="Debug-MinGW" RUN_TARGET_PROJECT_NAME="LGRobotSystem" RUN_TARGET_NAME="LGRobotSystem.elf">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="LGRobotSystemDAP.elf" type="com.jetbrains.cidr.embedded.openocd.conf.type" factoryName="com.jetbrains.cidr.embedded.openocd.conf.factory" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LGRobotSystem" TARGET_NAME="LGRobotSystem.elf" CONFIG_NAME="Debug-MinGW" version="1" RUN_TARGET_PROJECT_NAME="LGRobotSystem" RUN_TARGET_NAME="LGRobotSystem.elf">
@@ -163,7 +174,7 @@
       </method>
     </configuration>
     <configuration name="LGRobotSystemST.elf" type="com.jetbrains.cidr.embedded.openocd.conf.type" factoryName="com.jetbrains.cidr.embedded.openocd.conf.factory" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LGRobotSystem" TARGET_NAME="LGRobotSystem.elf" CONFIG_NAME="Debug-MinGW" version="1" RUN_TARGET_PROJECT_NAME="LGRobotSystem" RUN_TARGET_NAME="LGRobotSystem.elf">
-      <openocd version="1" gdb-port="3333" telnet-port="4444" board-config="E:\rm\LGRobotSystem\stlink.cfg" reset-type="INIT" download-type="UPDATED_ONLY">
+      <openocd version="1" gdb-port="3333" telnet-port="4444" board-config="E:\rm\LGRobotSystem\stlink.cfg" reset-type="RUN" download-type="UPDATED_ONLY">
         <debugger kind="GDB" isBundled="true" />
       </openocd>
       <method v="2">
@@ -171,14 +182,30 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="CMake 应用程序.LGRobotSystem.elf" />
       <item itemvalue="OpenOCD 下载并运行.LGRobotSystemST.elf" />
       <item itemvalue="OpenOCD 下载并运行.LGRobotSystemDAP.elf" />
     </list>
   </component>
-  <component name="SelectedDebugProfileService"><![CDATA[{
-  "profileIdByStamp": [],
-  "modificationCount": 31
-}]]></component>
+  <component name="SelectedDebugProfileService">{
+  &quot;profileIdByStamp&quot;: [
+    {
+      &quot;first&quot;: {
+        &quot;##RUN_CONFIGURATION##&quot;: &quot;OpenOCD 下载并运行.LGRobotSystemST.elf&quot;,
+        &quot;cmake&quot;: &quot;CMakeBuildProfile:Debug-MinGW&quot;
+      },
+      &quot;second&quot;: &quot;0035130b-40c8-4133-b44e-6578cb88fb59&quot;
+    },
+    {
+      &quot;first&quot;: {
+        &quot;##RUN_CONFIGURATION##&quot;: &quot;CMake 应用程序.LGRobotSystem.elf&quot;,
+        &quot;cmake&quot;: &quot;CMakeBuildProfile:Debug-MinGW&quot;
+      },
+      &quot;second&quot;: &quot;0035130b-40c8-4133-b44e-6578cb88fb59&quot;
+    }
+  ],
+  &quot;modificationCount&quot;: 40
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
       <changelist id="05dcab9c-5ba6-4d49-8a5f-779985fcbd19" name="更改" comment="" />
@@ -200,7 +227,19 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="LGRobotSystem V0.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="LGRobotSystem V0.1" />
+    <MESSAGE value="LGRobotSystem V1" />
+    <option name="LAST_COMMIT_MESSAGE" value="LGRobotSystem V1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/User/algorithm/chassis_control/alg_chassis_control.h</url>
+          <line>7</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -153,6 +153,12 @@ int main(void)
   MX_TIM12_Init();
   MX_SPI6_Init();
   /* USER CODE BEGIN 2 */
+  /* ★ 采样 1:MX_OCTOSPI2_Init() 之后、Robot_Init() 之前的 OSPI 状态
+     (1=READY 正常 ; 2/4 = 已经忙 ⇒ 问题在 main 里的初始化) */
+  {
+    extern volatile uint32_t flash_diag_raw;
+    flash_diag_raw = (uint32_t)hospi2.State;
+  }
   /* ==================== 本工程的启动顺序 ====================
    *   ① DWT_Init(0)      微秒级时间戳(DWT->CYCCNT,内核时钟)
    *                      —— 电机的发送频率调度靠它,必须最先起

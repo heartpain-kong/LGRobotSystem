@@ -86,6 +86,8 @@ include_directories(
         User/Device/motor/motor_YS
         User/App
         User/App/motor_task
+        User/Bsp/fault
+        User/App/debug
         User/Bsp/rc
         User/Device/remote
         User/App/robot

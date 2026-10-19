@@ -173,6 +173,19 @@ standard names. */
 
 /* USER CODE BEGIN Defines */
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
+
+/* ============================================================================
+ * ★ CLion RTOS 视图(FreeRTOS Objects 表的 runtime / CPU 占用列)
+ *   这一段**必须待在 USER CODE 里** —— CubeMX 每次导出都会重写上面那些生成区 ✗
+ *   用已有的 TIM5 微秒计数器(1MHz,无中断;3600s 回绕 —— 运行时统计容忍回绕 ✓)
+ *   注意:这里只写函数原型,不要 include bsp_timestamp.h
+ *        (FreeRTOSConfig.h 会被 port.c 在最早期包含,带进 HAL 头容易出问题)
+ *   想关掉就整体删掉这 4 行(脚本不会再把它加回去 ✓)
+ * ========================================================================== */
+extern uint32_t Timestamp_Get_Us32(void);
+#define configGENERATE_RUN_TIME_STATS              1
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()   /* TIM5 已经在跑,无需额外配置 */
+#define portGET_RUN_TIME_COUNTER_VALUE()           Timestamp_Get_Us32()
 /* USER CODE END Defines */
 
 #endif /* FREERTOS_CONFIG_H */

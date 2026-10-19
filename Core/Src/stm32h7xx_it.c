@@ -22,6 +22,7 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "fault_decode.h"   /* HardFault 现场解码(自动判断 PSP/MSP 栈帧) */
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -133,6 +134,7 @@ void HardFault_Handler(void)
   g_fault_msp   = __get_MSP();
   /* 异常栈帧:r0 r1 r2 r3 r12 LR PC xPSR ⇒ PC 是第 7 个字(下标 6) */
   g_fault_pc_psp = ((volatile uint32_t *)g_fault_psp)[6];
+  Fault_Decode();      /* ★ 自动挑可信栈帧:任务里跑飞看 PSP,中断里跑飞看 MSP */
   __DSB();
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
